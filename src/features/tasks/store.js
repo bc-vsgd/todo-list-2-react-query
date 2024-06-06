@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { devtools } from "zustand/middleware";
+import { useEffect } from "react";
+import axios from "axios";
+
+const URL = "http://localhost:3000";
 
 const myStore = (set) => {
   return {
@@ -9,6 +13,20 @@ const myStore = (set) => {
     numberOfUndoneTasks: 0,
     sortTasks: null,
     lastState: null,
+    GET_TASKS: (payload) => {
+      return set((state) => {
+        state.tasks = payload;
+        let done = 0;
+        let undone = 0;
+        for (let i = 0; i < payload.length; i++) {
+          if (payload[i].isDone) {
+            done++;
+          } else undone++;
+        }
+        state.numberOfDoneTasks = done;
+        state.numberOfUndoneTasks = undone;
+      });
+    },
     ADD_TASK: (payload) => {
       return set((state) => {
         const newTasks = [...state.tasks, payload];

@@ -1,8 +1,11 @@
 import { useRef } from "react";
+import axios from "axios";
 // States
 import { useTasksStore } from "../features/tasks/store";
 // Components
 import ButtonComp from "./ButtonComp";
+
+const URL = "http://localhost:3000";
 
 const Toolbar = () => {
   const taskInput = useRef();
@@ -12,11 +15,14 @@ const Toolbar = () => {
       return store;
     },
   );
-  const handleSubmitForm = (event) => {
+  const handleSubmitForm = async (event) => {
     event.preventDefault();
     const task = taskInput.current.value;
     if (task) {
-      ADD_TASK({ name: task, isDone: false, date: new Date() });
+      const data = await axios.post(`${URL}/task/create`, {
+        name: task,
+      });
+      console.log("post: ", data.data.data);
       taskInput.current.value = "";
     }
   };
@@ -37,13 +43,18 @@ const Toolbar = () => {
               compStyle="w-24 px-1.5 sm:w-36"
               onClick={UNDO_LAST_EVENT}
             >
-              Undo last event
+              Undo last event ???
             </ButtonComp>
           )}
         </div>
       </form>
       <div>
-        <ButtonComp compStyle=" px-1.5 sm:w-24" onClick={RESET}>
+        <ButtonComp
+          compStyle=" px-1.5 sm:w-24"
+          onClick={async () => {
+            await axios.delete(`${URL}/tasks/delete`);
+          }}
+        >
           Reset
         </ButtonComp>
       </div>

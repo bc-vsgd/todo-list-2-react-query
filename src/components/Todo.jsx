@@ -1,15 +1,10 @@
-// States
-import { useTasksStore } from "../features/tasks/store";
+import axios from "axios";
 // Components
 import ButtonComp from "./ButtonComp";
 
+const URL = "http://localhost:3000";
+
 const Todo = ({ task, index }) => {
-  const REMOVE_TASK = useTasksStore((store) => {
-    return store.REMOVE_TASK;
-  });
-  const TOGGLE_TASK = useTasksStore((store) => {
-    return store.TOGGLE_TASK;
-  });
   return (
     <div className="flex justify-between gap-x-5 border-b py-1">
       <p>{task.name}</p>
@@ -17,14 +12,16 @@ const Todo = ({ task, index }) => {
         <input
           type="checkbox"
           checked={task.isDone}
-          onChange={() => {
-            TOGGLE_TASK({ index });
+          onChange={async () => {
+            const data = await axios.put(`${URL}/task/${task._id}/update`, {
+              isDone: !task.isDone,
+            });
           }}
         />
         <ButtonComp
           compStyle=" px-1.5 h-8"
-          onClick={() => {
-            REMOVE_TASK({ task, index });
+          onClick={async () => {
+            await axios.delete(`${URL}/task/${task._id}/delete`);
           }}
         >
           X
