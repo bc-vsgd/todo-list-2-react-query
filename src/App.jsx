@@ -1,5 +1,5 @@
-import { useEffect } from "react";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 // States
 import { useTasksStore } from "./features/tasks/store";
 import { useThemeStore } from "./features/theme/store";
@@ -17,20 +17,25 @@ function App() {
   const { theme } = useThemeStore((store) => {
     return store;
   });
-  const { GET_TASKS } = useTasksStore((store) => {
+  const { GET_TASKS, sortTasks } = useTasksStore((store) => {
     return store;
   });
+  // console.log("app, retrieve sortTasks: ", sortTasks);
 
-  //
-  useEffect(() => {
-    const fetchData = async () => {
+  // Query
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["getTasks"],
+    queryFn: async () => {
       const { data } = await axios.get(`${URL}/tasks`);
-      // console.log(data.data);
-      GET_TASKS(data.data);
-    };
-    fetchData();
-  }, []);
-  //
+      GET_TASKS({ tasks: data.data, sortTasks });
+      return data;
+    },
+    staleTime: Infinity,
+  });
+
+  if (isLoading) return <div>Loading ...</div>;
+  if (error) return <div>{error.message}</div>;
+
   return (
     <div
       className={
@@ -40,8 +45,8 @@ function App() {
       }
     >
       <Header />
-      <Todos />
-      <Toolbar />
+      <Todos URL={URL} />
+      <Toolbar URL={URL} />
       <Footer />
     </div>
   );

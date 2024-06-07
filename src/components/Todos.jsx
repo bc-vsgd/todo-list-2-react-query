@@ -4,10 +4,11 @@ import { useTasksStore } from "../features/tasks/store";
 import Todo from "./Todo";
 import ButtonComp from "./ButtonComp";
 
-const Todos = () => {
+const Todos = ({ URL }) => {
   const { tasks, sortTasks, TOGGLE_SORT_TASKS } = useTasksStore((store) => {
     return store;
   });
+  // console.log("Todos, sortTasks: ", sortTasks);
 
   return (
     <div className="mx-auto max-w-md border-b py-2 sm:max-w-xl md:max-w-2xl lg:max-w-4xl">
@@ -20,11 +21,11 @@ const Todos = () => {
           <div>
             {tasks.map((task, index) => {
               if (task.isDone)
-                return <Todo key={index} task={task} index={index} />;
+                return <Todo key={index} task={task} URL={URL} />;
             })}
             {tasks.map((task, index) => {
               if (!task.isDone)
-                return <Todo key={index} task={task} index={index} />;
+                return <Todo key={index} task={task} URL={URL} />;
             })}
           </div>
         )}
@@ -32,7 +33,7 @@ const Todos = () => {
         {!sortTasks && (
           <div>
             {tasks.map((task, index) => {
-              return <Todo key={index} task={task} index={index} />;
+              return <Todo key={index} task={task} URL={URL} />;
             })}
           </div>
         )}
