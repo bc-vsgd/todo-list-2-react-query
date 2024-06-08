@@ -10,12 +10,9 @@ const myStore = (set) => {
     numberOfDoneTasks: 0,
     numberOfUndoneTasks: 0,
     sortTasks: null,
-    GET_TASKS: ({ tasks, sortTasks }) => {
+    GET_TASKS: ({ tasks }) => {
       return set((state) => {
-        // console.log(tasks);
-        // console.log(sortTasks);
         state.tasks = tasks;
-        state.sortTasks = sortTasks;
         let done = 0;
         let undone = 0;
         for (let i = 0; i < tasks.length; i++) {
@@ -30,7 +27,6 @@ const myStore = (set) => {
     TOGGLE_SORT_TASKS: () => {
       return set((state) => {
         state.sortTasks = !state.sortTasks;
-        // console.log("TOGGLE_TASKS: sortTasks: ", state.sortTasks);
       });
     },
   };

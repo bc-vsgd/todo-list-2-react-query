@@ -17,17 +17,16 @@ function App() {
   const { theme } = useThemeStore((store) => {
     return store;
   });
-  const { GET_TASKS, sortTasks } = useTasksStore((store) => {
+  const { GET_TASKS } = useTasksStore((store) => {
     return store;
   });
-  // console.log("app, retrieve sortTasks: ", sortTasks);
 
   // Query
   const { data, isLoading, error } = useQuery({
     queryKey: ["getTasks"],
     queryFn: async () => {
       const { data } = await axios.get(`${URL}/tasks`);
-      GET_TASKS({ tasks: data.data, sortTasks });
+      GET_TASKS({ tasks: data.data });
       return data;
     },
     staleTime: Infinity,

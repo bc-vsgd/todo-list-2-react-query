@@ -8,7 +8,6 @@ const Todos = ({ URL }) => {
   const { tasks, sortTasks, TOGGLE_SORT_TASKS } = useTasksStore((store) => {
     return store;
   });
-  // console.log("Todos, sortTasks: ", sortTasks);
 
   return (
     <div className="mx-auto max-w-md border-b py-2 sm:max-w-xl md:max-w-2xl lg:max-w-4xl">
