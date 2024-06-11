@@ -4,7 +4,7 @@ import { devtools } from "zustand/middleware";
 
 const myStore = (set) => {
   return {
-    theme: "white",
+    theme: "black",
     CHANGE_THEME: () => {
       return set((state) => {
         if (state.theme === "white") {
