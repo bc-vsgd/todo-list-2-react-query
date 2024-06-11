@@ -2,8 +2,6 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { devtools } from "zustand/middleware";
 
-const URL = "http://localhost:3000";
-
 const myStore = (set) => {
   return {
     tasks: [],

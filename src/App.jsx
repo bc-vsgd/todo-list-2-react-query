@@ -11,7 +11,10 @@ import Footer from "./components/Footer";
 
 import "./App.css";
 
-const URL = "http://localhost:3000";
+// LOCAL
+// const URL = "http://localhost:3000";
+// REMOTE
+const URL = "https://site--home--r6xgg7xm7vcz.code.run";
 
 function App() {
   const { theme } = useThemeStore((store) => {
